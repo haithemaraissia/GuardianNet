@@ -13,7 +13,7 @@ namespace GuardianNet
         public SearchQuery() 
             => Tags = new List<string>();
 
-        public string Query { get; set; }
+        public Query Query { get; set; }
         public string Section { get; set; }
         public List<string> Tags { get; set; }
         public string Lang { get; set; }
@@ -28,10 +28,8 @@ namespace GuardianNet
         internal string GetTagsString()
         {
             StringBuilder str = new StringBuilder();
-
             foreach(var tag in Tags)
                 str.Append($"{tag}/");
-
             return str.ToString().TrimEnd('/');
         }
     }

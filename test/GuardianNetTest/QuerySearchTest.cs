@@ -4,9 +4,6 @@
 // Author: Szymon 'l7ssha' Uglis
 
 using System.IO;
-using System.Numerics;
-using System.Reflection.Metadata;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using GuardianNet;
 using Xunit;
@@ -17,14 +14,13 @@ namespace GuardianNetTest
     {
         public GuardianApi GetApi()
         {
-            string token = File.ReadAllText("token.txt");
+            var token = File.ReadAllText("token.txt");
             return new GuardianApi(token);
         }
 
         [Theory]
         [InlineData("Terrorism")]
         [InlineData("Trump")]
-        [InlineData("Europe")]
         public async Task QueryTest(object query)
         {
             var guard = GetApi();
@@ -42,7 +38,7 @@ namespace GuardianNetTest
 
             var qq = new SearchQuery
             {
-                Query = "Europe",
+                Query = new Query().Add("Terrorism").Add("Trump"),
                 OrderBy = OrderBy.Oldest,
                 StarRating = 5,
                 PageSize = 10

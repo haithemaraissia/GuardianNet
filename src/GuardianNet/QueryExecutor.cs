@@ -4,15 +4,11 @@
 // Author: Szymon 'l7ssha' Uglis
 
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Net.Mime;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using GuardianNet.Models;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace GuardianNet
@@ -34,8 +30,10 @@ namespace GuardianNet
 
         public async Task<Response> Search(string apiKey, SearchQuery query)
         {
+
+#warning HERE IS BUG. SPACES ARE REPLACES WITH '+' NEITHER '%20'
             var reqQuery = HttpUtility.ParseQueryString(string.Empty, Encoding.UTF8);
-            reqQuery["q"] = query.Query;
+            reqQuery["q"] = query.Query.Build();
 
             if(query.Section != null)
                 reqQuery["section"] = query.Section;
@@ -61,7 +59,6 @@ namespace GuardianNet
             if(query.OrderDate != null)
             {
                 string res = String.Empty;
-
                 switch(query.OrderDate)
                 {
                     case OrderDate.Published:
@@ -74,7 +71,6 @@ namespace GuardianNet
                         res = "last-modified";
                         break;
                 }
-
                 reqQuery["order-date"] = res;
             }
 
