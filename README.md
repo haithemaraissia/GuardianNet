@@ -19,18 +19,52 @@ var result2 = guardian.Search(query);
 
 ### SearchQuery class
 ```csharp
-public class SearchQuery
+namespace GuardianNet
 {
-    public string Query { get; set; }
-    public string Section { get; set; }
-    public List<string> Tags { get; set; }
-    public string Lang { get; set; }
-    public int StarRating { get; set; }
+    public class SearchQuery
+    {
+        public SearchQuery()
+            => Tags = new List<string>();
 
-    public OrderBy? OrderBy { get; set; }
-    public OrderDate? OrderDate { get; set; }
+        public Query Query { get; set; }
+        public string Section { get; set; }
+        public List<string> Tags { get; set; }
+        public string Lang { get; set; }
+        public int StarRating { get; set; }
 
-    public int Page { get; set; }
-    public int PageSize { get; set; }
+        public OrderBy? OrderBy { get; set; }
+        public OrderDate? OrderDate { get; set; }
+
+        public DateQuery DateQuery { get; set; }
+
+        public int Page { get; set; }
+        public int PageSize { get; set; }
+
+        internal string GetTagsString()
+        {
+            StringBuilder str = new StringBuilder();
+            foreach(var tag in Tags)
+                str.Append($"{tag}/");
+            return str.ToString().TrimEnd('/');
+        }
+    }
+
+    public class DateQuery
+    {
+        public DateQuery(DateTime dateTime, Date date)
+        {
+            DateTime = dateTime;
+            Type = date;
+        }
+
+        public enum Date
+        {
+            FromDate,
+            ToDate
+        }
+
+        public DateTime DateTime { get; set; }
+        public Date Type { get; set; }
+    }
 }
 ```
