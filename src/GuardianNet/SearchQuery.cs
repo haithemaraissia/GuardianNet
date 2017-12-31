@@ -3,6 +3,7 @@
 // Created at: 30/12/2017
 // Author: Szymon 'l7ssha' Uglis
 
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -22,6 +23,8 @@ namespace GuardianNet
         public OrderBy? OrderBy { get; set; }
         public OrderDate? OrderDate { get; set; }
 
+        public DateQuery DateQuery { get; set; }
+
         public int Page { get; set; }
         public int PageSize { get; set; }
 
@@ -32,5 +35,23 @@ namespace GuardianNet
                 str.Append($"{tag}/");
             return str.ToString().TrimEnd('/');
         }
+    }
+
+    public class DateQuery
+    {
+        public DateQuery(DateTime dateTime, Date date)
+        {
+            DateTime = dateTime;
+            Type = date;
+        }
+
+        public enum Date
+        {
+            FromDate,
+            ToDate
+        }
+
+        public DateTime DateTime { get; set; }
+        public Date Type { get; set; }
     }
 }

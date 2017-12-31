@@ -22,7 +22,12 @@ namespace GuardianNet
         public async Task<Response> Search(string apiKey, string query)
         {
             var reqQuery = HttpUtility.ParseQueryString(string.Empty);
-            reqQuery["q"] = query;
+
+            if(query.Contains(" "))
+                reqQuery["q"] = $"\"{query}\"";
+            else
+                reqQuery["q"] = query;
+
             reqQuery["api-key"] = apiKey;
 
             return await Search(_CONTENT_ENDPOINT + $"?{reqQuery}");
@@ -31,11 +36,11 @@ namespace GuardianNet
         public async Task<Response> Search(string apiKey, SearchQuery query)
         {
 
-#warning HERE IS BUG. SPACES ARE REPLACES WITH '+' NEITHER '%20'
             var reqQuery = HttpUtility.ParseQueryString(string.Empty, Encoding.UTF8);
+
             reqQuery["q"] = query.Query.Build();
 
-            if(query.Section != null)
+            if (query.Section != null)
                 reqQuery["section"] = query.Section;
 
             if (query.Tags.Count > 0)
@@ -55,6 +60,14 @@ namespace GuardianNet
 
             if(query.OrderBy != null)
                 reqQuery["order-by"] = query.OrderBy.ToString().ToLowerInvariant();
+
+            if(query.DateQuery != null)
+            {
+                if(query.DateQuery.Type == DateQuery.Date.ToDate)
+                    reqQuery["to-date"] = query.DateQuery.DateTime.ToString("yyyy-MM-dd");
+                else
+                    reqQuery["from-date"] = query.DateQuery.DateTime.ToString("yyyy-MM-dd");
+            }
 
             if(query.OrderDate != null)
             {
@@ -82,19 +95,21 @@ namespace GuardianNet
 
         private async Task<Response> Search(string q)
         {
-            string resp = null;
+            //var qq = q.Replace("+", "%20");
 
             HttpResponseMessage response = await _client.GetAsync(q);
 
-            if(response.IsSuccessStatusCode)
-            {
-                resp = await response.Content.ReadAsStringAsync();
+            if(!response.IsSuccessStatusCode)
+                throw new InvalidOperationException("TheGuardianError");
 
-                var temp = JObject.Parse(resp);
-                return temp["response"].ToObject<Response>();
-            }
+            var resp = await response.Content.ReadAsStringAsync();
+            var temp = JObject.Parse(resp);
+            var obj = temp["response"].ToObject<Response>();
 
-            return null;
+            if(obj.Status != "ok" || obj.Pages <= 0)
+                throw new InvalidOperationException("No results");
+
+            return obj;
         }
     }
 }

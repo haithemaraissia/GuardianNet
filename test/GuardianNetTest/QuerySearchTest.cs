@@ -3,6 +3,7 @@
 // Created at: 30/12/2017
 // Author: Szymon 'l7ssha' Uglis
 
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using GuardianNet;
@@ -26,6 +27,7 @@ namespace GuardianNetTest
             var guard = GetApi();
 
             var res = await guard.Search((string)query);
+
             Assert.True(res.CurrentPage == 1);
             Assert.True(res.Results.Count > 5);
             Assert.True(res.Status == "ok");
@@ -39,12 +41,12 @@ namespace GuardianNetTest
             var qq = new SearchQuery
             {
                 Query = new Query().Add("Terrorism").Add("Trump"),
-                OrderBy = OrderBy.Oldest,
+                OrderBy = OrderBy.Relevance,
                 StarRating = 5,
                 PageSize = 10
             };
-
             var res = await guard.Search(qq);
+
             Assert.True(res.CurrentPage == 1);
             Assert.True(res.PageSize == 10);
             Assert.True(res.Results.Count > 5);
