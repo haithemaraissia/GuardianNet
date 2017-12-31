@@ -23,9 +23,6 @@ namespace GuardianNet
 {
     public class SearchQuery
     {
-        public SearchQuery()
-            => Tags = new List<string>();
-
         public Query Query { get; set; }
         public string Section { get; set; }
         public List<string> Tags { get; set; }
@@ -39,24 +36,10 @@ namespace GuardianNet
 
         public int Page { get; set; }
         public int PageSize { get; set; }
-
-        internal string GetTagsString()
-        {
-            StringBuilder str = new StringBuilder();
-            foreach(var tag in Tags)
-                str.Append($"{tag}/");
-            return str.ToString().TrimEnd('/');
-        }
     }
 
     public class DateQuery
     {
-        public DateQuery(DateTime dateTime, Date date)
-        {
-            DateTime = dateTime;
-            Type = date;
-        }
-
         public enum Date
         {
             FromDate,
