@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using GuardianNet.Executors;
 using GuardianNet.Models;
+using GuardianNet.Models.Editions;
 using GuardianNet.Models.Search;
 using GuardianNet.Models.Tags;
 
@@ -17,6 +18,7 @@ namespace GuardianNet
         private readonly string _token;
         private readonly SearchExecutor SearchExecutor = new SearchExecutor();
         private readonly TagExecutor TagExecutor = new TagExecutor();
+        private readonly EditionsExecutor EditionsExecutor = new EditionsExecutor();
         
         public GuardianApi(string token)
             => _token = token;
@@ -32,5 +34,8 @@ namespace GuardianNet
 
         public async Task<TagResponse> GetTagsAsync(TagQuery query)
             => await TagExecutor.Search(_token, query);
+
+        public async Task<IEnumerable<Edition>> GetEditionsAsync()
+            => await EditionsExecutor.GetEditions(_token);
     }
 }
