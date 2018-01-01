@@ -11,7 +11,7 @@ using Xunit;
 
 namespace GuardianNetTest
 {
-    public class QuerySearchTest
+    public class SearchTest
     {
         public GuardianApi GetApi()
         {
@@ -26,7 +26,7 @@ namespace GuardianNetTest
         {
             var guard = GetApi();
 
-            var res = await guard.Search((string)query);
+            var res = await guard.SearchAsync((string)query);
 
             Assert.True(res.CurrentPage == 1);
             Assert.True(res.Results.Count > 5);
@@ -45,7 +45,7 @@ namespace GuardianNetTest
                 StarRating = 5,
                 PageSize = 10
             };
-            var res = await guard.Search(qq);
+            var res = await guard.SearchAsync(qq);
 
             Assert.True(res.CurrentPage == 1);
             Assert.True(res.PageSize == 10);
@@ -63,7 +63,7 @@ namespace GuardianNetTest
                 Query = new Query().Add("Terrorism"),
                 DateQuery = new DateQuery(new DateTime(2017, 3, 14), DateQuery.Date.ToDate)
             };
-            var res = await guard.Search(qq);
+            var res = await guard.SearchAsync(qq);
 
             Assert.True(res.CurrentPage == 1);
             Assert.True(res.PageSize == 10);

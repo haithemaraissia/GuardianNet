@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 using GuardianNet.Models;
 using Newtonsoft.Json.Linq;
 
-namespace GuardianNet
+namespace GuardianNet.Executors
 {
     internal class Executor
     {
         protected readonly HttpClient _client = new HttpClient();
 
-        protected async Task<T> Search<T>(string q)
+        protected async Task<T> Execute<T>(string q)
         {
             //var qq = q.Replace("+", "%20");
 
@@ -26,9 +26,7 @@ namespace GuardianNet
 
             var resp = await response.Content.ReadAsStringAsync();
             var temp = JObject.Parse(resp);
-            var obj = temp["response"].ToObject<T>();
-
-            return obj;
+            return temp["response"].ToObject<T>();
         }
     }
 }

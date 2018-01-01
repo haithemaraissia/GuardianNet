@@ -11,5 +11,6 @@ namespace GuardianNet.Models
         public string SectionId { get; set; }
         public string WebTitle { get; set; }
         public string WebUrl { get; set; }
+        public string Type { get; set; }
     }
 }

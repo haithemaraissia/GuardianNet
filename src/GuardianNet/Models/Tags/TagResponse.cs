@@ -1,15 +1,12 @@
-﻿// GuardianNet/GuardianNet/SearchResponse.cs
-// 
-// Created at: 30/12/2017
-// Author: Szymon 'l7ssha' Uglis
-
+﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
-namespace GuardianNet.Models.Search
+namespace GuardianNet.Models.Tags
 {
-    public sealed class SearchResponse : IResponse
+    public sealed class TagResponse : IResponse
     {
-        public List<SearchResult> Results { get; set; }
+        public List<Tag> Results { get; set; }
         public string Status { get; set; }
         public string UserTier { get; set; }
         public int Total { get; set; }
@@ -17,6 +14,5 @@ namespace GuardianNet.Models.Search
         public int PageSize { get; set; }
         public int CurrentPage { get; set; }
         public int Pages { get; set; }
-        public OrderBy OrderBy { get; set; }
     }
 }

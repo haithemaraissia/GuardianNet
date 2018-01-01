@@ -7,15 +7,15 @@ using System;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
-using GuardianNet.Models;
+using GuardianNet.Models.Search;
 
-namespace GuardianNet
+namespace GuardianNet.Executors
 {
-    internal class SearchExecutor : Executor
+    internal sealed class SearchExecutor : Executor
     {
-        private const string _CONTENT_ENDPOINT = "https://content.guardianapis.com/search";
+        private const string _ENDPOINT = "https://content.guardianapis.com/search";
 
-        public async Task<SearchResponse> Search(string apiKey, string query)
+        internal async Task<SearchResponse> Search(string apiKey, string query)
         {
             var reqQuery = HttpUtility.ParseQueryString(string.Empty);
 
@@ -24,12 +24,13 @@ namespace GuardianNet
             else
                 reqQuery["q"] = query;
 
+            reqQuery["format"] = "json";
             reqQuery["api-key"] = apiKey;
 
-            return await Search<SearchResponse>(_CONTENT_ENDPOINT + $"?{reqQuery}");
+            return await Execute<SearchResponse>(_ENDPOINT + $"?{reqQuery}");
         }
 
-        public async Task<SearchResponse> Search(string apiKey, SearchQuery query)
+        internal async Task<SearchResponse> Search(string apiKey, SearchQuery query)
         {
 
             var reqQuery = HttpUtility.ParseQueryString(string.Empty, Encoding.UTF8);
@@ -90,7 +91,7 @@ namespace GuardianNet
             reqQuery["format"] = "json";
             reqQuery["api-key"] = apiKey;
 
-            return await Search<SearchResponse>(_CONTENT_ENDPOINT + $"?{reqQuery}");
+            return await Execute<SearchResponse>(_ENDPOINT + $"?{reqQuery}");
         }
     }
 }
