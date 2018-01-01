@@ -12,15 +12,15 @@ namespace GuardianNet
     public class GuardianApi
     {
         private readonly string _token;
-        private readonly QueryExecutor Executor = new QueryExecutor();
+        private readonly SearchExecutor Executor = new SearchExecutor();
         
         public GuardianApi(string token)
             => _token = token;
 
-        public async Task<Response> Search(string query)
+        public async Task<SearchResponse> Search(string query)
             => await Executor.Search(_token, query);
 
-        public async Task<Response> Search(SearchQuery query)
+        public async Task<SearchResponse> Search(SearchQuery query)
             => await Executor.Search(_token, query);
     }
 }

@@ -1,25 +1,21 @@
-﻿// GuardianNet/GuardianNet/QueryExecutor.cs
+﻿// GuardianNet/GuardianNet/SearchExecutor.cs
 // 
 // Created at: 30/12/2017
 // Author: Szymon 'l7ssha' Uglis
 
 using System;
-using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using GuardianNet.Models;
-using Newtonsoft.Json.Linq;
 
 namespace GuardianNet
 {
-    public class QueryExecutor
+    internal class SearchExecutor : Executor
     {
         private const string _CONTENT_ENDPOINT = "https://content.guardianapis.com/search";
-        
-        private readonly HttpClient _client = new HttpClient();
 
-        public async Task<Response> Search(string apiKey, string query)
+        public async Task<SearchResponse> Search(string apiKey, string query)
         {
             var reqQuery = HttpUtility.ParseQueryString(string.Empty);
 
@@ -30,10 +26,10 @@ namespace GuardianNet
 
             reqQuery["api-key"] = apiKey;
 
-            return await Search(_CONTENT_ENDPOINT + $"?{reqQuery}");
+            return await Search<SearchResponse>(_CONTENT_ENDPOINT + $"?{reqQuery}");
         }
 
-        public async Task<Response> Search(string apiKey, SearchQuery query)
+        public async Task<SearchResponse> Search(string apiKey, SearchQuery query)
         {
 
             var reqQuery = HttpUtility.ParseQueryString(string.Empty, Encoding.UTF8);
@@ -43,8 +39,8 @@ namespace GuardianNet
             if (query.Section != null)
                 reqQuery["section"] = query.Section;
 
-            if (query.Tags.Count > 0)
-                reqQuery["tag"] = query.GetTagsString();
+            if(query.Tags != null)
+                reqQuery["tag"] = query.Tags;
 
             if (query.Lang != null)
                 reqQuery["lang"] = query.Lang;
@@ -87,29 +83,14 @@ namespace GuardianNet
                 reqQuery["order-date"] = res;
             }
 
-            reqQuery["show-fields"] = @"thumbnail,lastModified,shortUrl,wordcount,commentable,isPremoderated,commentCloseDate,starRating";
+            reqQuery["show-tags"] = "keyword";
+            reqQuery["show-fields"] = @"thumbnail,lastModified,shortUrl,wordcount,commentable,isPremoderated,starRating,score";
+            reqQuery["show-elements"] = "all";
+
+            reqQuery["format"] = "json";
             reqQuery["api-key"] = apiKey;
 
-            return await Search(_CONTENT_ENDPOINT + $"?{reqQuery}");
-        }
-
-        private async Task<Response> Search(string q)
-        {
-            //var qq = q.Replace("+", "%20");
-
-            HttpResponseMessage response = await _client.GetAsync(q);
-
-            if(!response.IsSuccessStatusCode)
-                throw new InvalidOperationException("TheGuardianError");
-
-            var resp = await response.Content.ReadAsStringAsync();
-            var temp = JObject.Parse(resp);
-            var obj = temp["response"].ToObject<Response>();
-
-            if(obj.Status != "ok" || obj.Pages <= 0)
-                throw new InvalidOperationException("No results");
-
-            return obj;
+            return await Search<SearchResponse>(_CONTENT_ENDPOINT + $"?{reqQuery}");
         }
     }
 }
