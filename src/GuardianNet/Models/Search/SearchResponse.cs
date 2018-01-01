@@ -1,4 +1,4 @@
-﻿// GuardianNet/GuardianNet/Response.cs
+﻿// GuardianNet/GuardianNet/SearchResponse.cs
 // 
 // Created at: 30/12/2017
 // Author: Szymon 'l7ssha' Uglis
@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace GuardianNet.Models
 {
-    public class Response
+    public class SearchResponse
     {
         public string Status { get; set; }
         public string UserTier { get; set; }
@@ -18,6 +18,6 @@ namespace GuardianNet.Models
         public int CurrentPage { get; set; }
         public int Pages { get; set; }
         public OrderBy OrderBy { get; set; }
-        public List<Result> Results { get; set; }
+        public List<SearchResult> Results { get; set; }
     }
 }
