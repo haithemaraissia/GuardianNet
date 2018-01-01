@@ -3,12 +3,10 @@
 // Created at: 01/01/2018
 // Author: Szymon 'l7ssha' Uglis
 
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web;
 using GuardianNet.Models.Editions;
-using GuardianNet.Models.Search;
 
 namespace GuardianNet.Executors
 {
@@ -19,8 +17,6 @@ namespace GuardianNet.Executors
 
         private class TempResult
         {
-            public string Status { get; set; }
-            public int Total { get; set; }
             public List<Edition> Results { get; set; }
         }
 

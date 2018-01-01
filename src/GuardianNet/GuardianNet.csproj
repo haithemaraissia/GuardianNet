@@ -1,6 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>l7ssha</Authors>
+    <Company />
+    <Product>GuardianNet</Product>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Description>GuardianNet is .NET wrapper for TheGuardian API.</Description>
+    <Copyright>Szymon 'l7ssha' Uglis</Copyright>
+    <PackageTags>theguardian,guardian,api,wrapper</PackageTags>
+    <PackageProjectUrl>https://github.com/l7ssha/GuardianNet</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/l7ssha/GuardianNet</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseUrl>https://github.com/l7ssha/GuardianNet/blob/master/LICENSE.md</PackageLicenseUrl>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />

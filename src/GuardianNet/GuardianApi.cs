@@ -9,6 +9,7 @@ using GuardianNet.Executors;
 using GuardianNet.Models;
 using GuardianNet.Models.Editions;
 using GuardianNet.Models.Search;
+using GuardianNet.Models.Sections;
 using GuardianNet.Models.Tags;
 
 namespace GuardianNet
@@ -19,6 +20,7 @@ namespace GuardianNet
         private readonly SearchExecutor SearchExecutor = new SearchExecutor();
         private readonly TagExecutor TagExecutor = new TagExecutor();
         private readonly EditionsExecutor EditionsExecutor = new EditionsExecutor();
+        private readonly SectionsExecutor SectionExecutor = new SectionsExecutor();
         
         public GuardianApi(string token)
             => _token = token;
@@ -37,5 +39,8 @@ namespace GuardianNet
 
         public async Task<IEnumerable<Edition>> GetEditionsAsync()
             => await EditionsExecutor.GetEditions(_token);
+
+        public async Task<IEnumerable<Section>> GetSectionsAsync(string query)
+            => await SectionExecutor.Search(_token, query);
     }
 }
