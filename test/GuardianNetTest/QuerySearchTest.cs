@@ -52,5 +52,23 @@ namespace GuardianNetTest
             Assert.True(res.Results.Count > 5);
             Assert.True(res.Status == "ok");
         }
+
+        [Fact]
+        public async Task DateQueryTest()
+        {
+            var guard = GetApi();
+
+            var qq = new SearchQuery
+            {
+                Query = new Query().Add("Terrorism"),
+                DateQuery = new DateQuery(new DateTime(2017, 3, 14), DateQuery.Date.ToDate)
+            };
+            var res = await guard.Search(qq);
+
+            Assert.True(res.CurrentPage == 1);
+            Assert.True(res.PageSize == 10);
+            Assert.True(res.Results.Count > 5);
+            Assert.True(res.Status == "ok");
+        }
     }
 }
