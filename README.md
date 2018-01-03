@@ -1,7 +1,9 @@
 # TheGuardian API wrapper for .NET
 
-### Quick tutorial
+## Quick tutorial
 
+### Search Articles
+With this endpoint you can fetch articles from API
 ```csharp
 var guardian = new GuardianApi(TOKEN);
 
@@ -14,10 +16,10 @@ var query = new SearchQuery
     // Fields here. Leave other properties if you dont want to use it.
 };
 
-var result2 = guardian.Search(query);
+var result2 = await guardian.SearchAsync(query);
 ```
 
-### SearchQuery class
+#### SearchQuery class
 ```csharp
 namespace GuardianNet
 {
@@ -50,4 +52,39 @@ namespace GuardianNet
         public Date Type { get; set; }
     }
 }
+```
+
+### Tags Endpoint
+This endpoint provides searching within tags, and returns specific tag data.
+
+```csharp
+var guardian = new GuardianApi(TOKEN);
+
+var res = await guardian.GetTagsAsync("Poland");
+
+//EXAMPLE QUERY
+var qq = new TagQuery()
+{
+    Type = TagType.Keyword,
+    Query = "F1",
+    Section = "sport"
+};
+
+var res2 = await guardian.GetTagsAsync(qq);
+```
+
+### Sections Endpoint
+It returns endpoints within specified query.
+
+```csharp
+var guard = GetApi();
+var res = await guard.GetSectionsAsync("sport");
+```
+
+### Editions Endpoint
+This endpoint return IEnumerable of 4 actually available editions.
+
+```csharp
+var guardian = GetApi();
+var res = await guardian.GetEditionsAsync();
 ```
