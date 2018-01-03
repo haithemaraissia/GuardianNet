@@ -27,7 +27,7 @@ namespace GuardianNet
     {
         public Query Query { get; set; }
         public string Section { get; set; }
-        public List<string> Tags { get; set; }
+        public string Tags { get; set; }
         public string Lang { get; set; }
         public int StarRating { get; set; }
 
