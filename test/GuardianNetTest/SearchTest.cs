@@ -29,7 +29,6 @@ namespace GuardianNetTest
             var res = await guard.SearchAsync((string)query);
 
             Assert.True(res.CurrentPage == 1);
-            Assert.True(res.Results.Count > 5);
             Assert.True(res.Status == "ok");
         }
 
@@ -49,7 +48,6 @@ namespace GuardianNetTest
 
             Assert.True(res.CurrentPage == 1);
             Assert.True(res.PageSize == 10);
-            Assert.True(res.Results.Count > 5);
             Assert.True(res.Status == "ok");
         }
 
@@ -67,7 +65,6 @@ namespace GuardianNetTest
 
             Assert.True(res.CurrentPage == 1);
             Assert.True(res.PageSize == 10);
-            Assert.True(res.Results.Count > 5);
             Assert.True(res.Status == "ok");
         }
     }

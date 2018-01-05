@@ -26,7 +26,7 @@ namespace GuardianNetTest
 
             Assert.NotNull(res);
             Assert.True(res.Status == "ok");
-            Assert.True(res.Results != null && res.Results.Count > 0);
+            Assert.True(res.Results != null);
         }
 
         [Fact]
@@ -44,7 +44,7 @@ namespace GuardianNetTest
 
             Assert.NotNull(res);
             Assert.True(res.Status == "ok");
-            Assert.True(res.Results != null && res.Results.Count > 0);
+            Assert.True(res.Results != null);
         }
     }
 }
