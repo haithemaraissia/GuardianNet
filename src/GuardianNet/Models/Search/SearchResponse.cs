@@ -9,7 +9,7 @@ namespace GuardianNet.Models.Search
 {
     public sealed class SearchResponse : IResponse
     {
-        public List<SearchResult> Results { get; set; }
+        public IEnumerable<SearchResult> Results { get; set; }
         public string Status { get; set; }
         public string UserTier { get; set; }
         public int Total { get; set; }

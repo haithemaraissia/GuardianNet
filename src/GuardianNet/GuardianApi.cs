@@ -6,7 +6,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using GuardianNet.Executors;
-using GuardianNet.Models;
 using GuardianNet.Models.Editions;
 using GuardianNet.Models.Search;
 using GuardianNet.Models.Sections;

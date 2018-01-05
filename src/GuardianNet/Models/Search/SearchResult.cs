@@ -25,6 +25,6 @@ namespace GuardianNet.Models.Search
         public string PillarName { get; internal set; }
 
         public Fields Fields { get; internal set; }
-        public List<Tag> Tags { get; internal set; }
+        public IEnumerable<Tag> Tags { get; internal set; }
     }
 }
