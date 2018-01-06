@@ -13,6 +13,8 @@ namespace GuardianNet
         Publication,
         Series,
         Tone,
-        Type
+        Type,
+        NewspaperBook,
+        NewspaperBookSection
     }
 }

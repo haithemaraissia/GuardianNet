@@ -40,7 +40,12 @@ namespace GuardianNet.Executors
                 reqQuery["page-size"] = query.PageSize.ToString();
 
             if (query.Type != null)
-                reqQuery["type"] = query.Type.ToString().ToLowerInvariant();
+                if(query.Type == TagType.NewspaperBook)
+                    reqQuery["type"] = "newspaper-book";
+                else if(query.Type == TagType.NewspaperBookSection)
+                    reqQuery["type"] = "newspaper-book-section";
+                else
+                    reqQuery["type"] = query.Type.ToString().ToLowerInvariant();
 
             reqQuery["format"] = "json";
             reqQuery["api-key"] = apiKey;
