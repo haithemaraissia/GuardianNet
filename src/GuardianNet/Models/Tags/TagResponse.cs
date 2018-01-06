@@ -6,7 +6,7 @@ namespace GuardianNet.Models.Tags
 {
     public sealed class TagResponse : IResponse
     {
-        public IEnumerable<Tag> Results { get; set; }
+        public List<Tag> Results { get; set; }
         public string Status { get; set; }
         public string UserTier { get; set; }
         public int Total { get; set; }

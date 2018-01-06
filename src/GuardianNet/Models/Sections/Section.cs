@@ -12,6 +12,6 @@ namespace GuardianNet.Models.Sections
         public string Id { get; set; }
         public string WebTitle { get; set; }
         public string WebUrl { get; set; }
-        public IEnumerable<SectionEdition> Editions { get; set; }
+        public List<SectionEdition> Editions { get; set; }
     }
 }

@@ -48,6 +48,7 @@ namespace GuardianNetTest
 
             Assert.True(res.CurrentPage == 1);
             Assert.True(res.PageSize == 10);
+            Assert.True(res.Results[0].ApiUrl != null);
             Assert.True(res.Status == "ok");
         }
 

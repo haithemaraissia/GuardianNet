@@ -10,21 +10,21 @@ namespace GuardianNet.Models.Search
 {
     public class SearchResult
     {
-        public string Id { get; internal set; }
-        public string Type { get; internal set; }
-        public string SectionId { get; internal set; }
-        public string SectionName { get; internal set; }
-        public DateTime WebPublicationDate { get; internal set; }
-        public bool Commentable { get; internal set; }
-        public int StarRating { get; internal set; }
-        public string WebTitle { get; internal set; }
-        public string WebUrl { get; internal set; }
-        public string ApiUrl { get; internal set; }
-        public bool Hosted { get; internal set; }
-        public string PillarId { get; internal set; }
-        public string PillarName { get; internal set; }
+        public string Id { get; set; }
+        public string Type { get; set; }
+        public string SectionId { get; set; }
+        public string SectionName { get; set; }
+        public DateTime WebPublicationDate { get; set; }
+        public bool Commentable { get; set; }
+        public int StarRating { get; set; }
+        public string WebTitle { get; set; }
+        public string WebUrl { get; set; }
+        public string ApiUrl { get; set; }
+        public bool Hosted { get; set; }
+        public string PillarId { get; set; }
+        public string PillarName { get; set; }
 
-        public Fields Fields { get; internal set; }
-        public IEnumerable<Tag> Tags { get; internal set; }
+        public Fields Fields { get; set; }
+        public List<Tag> Tags { get; set; }
     }
 }
