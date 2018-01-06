@@ -66,6 +66,9 @@ namespace GuardianNet.Executors
                     reqQuery["from-date"] = query.DateQuery.DateTime.ToString("yyyy-MM-dd");
             }
 
+            if(query.ShowRights)
+                reqQuery["show-rights"] = "all";
+
             if(query.OrderDate != null)
             {
                 string res = String.Empty;
@@ -83,6 +86,7 @@ namespace GuardianNet.Executors
                 }
                 reqQuery["order-date"] = res;
             }
+
 
             reqQuery["show-tags"] = "keyword";
             reqQuery["show-fields"] = @"thumbnail,lastModified,shortUrl,wordcount,commentable,isPremoderated,starRating,score";

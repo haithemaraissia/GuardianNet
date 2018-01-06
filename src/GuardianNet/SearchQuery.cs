@@ -24,6 +24,7 @@ namespace GuardianNet
 
         public int Page { get; set; }
         public int PageSize { get; set; }
+        public bool ShowRights { get; set; }
     }
 
     public class DateQuery

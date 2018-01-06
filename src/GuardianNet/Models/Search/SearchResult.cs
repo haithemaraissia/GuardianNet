@@ -26,5 +26,6 @@ namespace GuardianNet.Models.Search
 
         public Fields Fields { get; set; }
         public List<Tag> Tags { get; set; }
+        public Rights Rights { get; set; }
     }
 }
