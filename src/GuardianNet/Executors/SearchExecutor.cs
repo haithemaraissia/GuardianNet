@@ -19,7 +19,10 @@ namespace GuardianNet.Executors
         {
             var reqQuery = HttpUtility.ParseQueryString(string.Empty);
 
-            if(query.Contains(" "))
+            if (string.IsNullOrWhiteSpace(query))
+                throw new InvalidOperationException("Cant create request with null or empty query");
+
+            if (query.Contains(" "))
                 reqQuery["q"] = $"\"{query}\"";
             else
                 reqQuery["q"] = query;
@@ -32,18 +35,21 @@ namespace GuardianNet.Executors
 
         internal async Task<SearchResponse> Search(string apiKey, SearchQuery query)
         {
-
             var reqQuery = HttpUtility.ParseQueryString(string.Empty, Encoding.UTF8);
 
-            reqQuery["q"] = query.Query.Build();
+            var queryString = query.Query.Build();
+            if(string.IsNullOrWhiteSpace(queryString))
+                throw new InvalidOperationException("Cant create request with null or empty query");
 
-            if (query.Section != null)
+            reqQuery["q"] = queryString;
+
+            if (string.IsNullOrWhiteSpace(query.Section))
                 reqQuery["section"] = query.Section;
 
-            if(query.Tags != null)
+            if(string.IsNullOrWhiteSpace(query.Tags))
                 reqQuery["tag"] = query.Tags;
 
-            if (query.Lang != null)
+            if (string.IsNullOrWhiteSpace(query.Lang))
                 reqQuery["lang"] = query.Lang;
 
             if (query.StarRating > 0)
@@ -87,10 +93,8 @@ namespace GuardianNet.Executors
                 reqQuery["order-date"] = res;
             }
 
-
             reqQuery["show-tags"] = "keyword";
             reqQuery["show-fields"] = @"thumbnail,lastModified,shortUrl,wordcount,commentable,isPremoderated,starRating,score";
-            reqQuery["show-elements"] = "all";
 
             reqQuery["format"] = "json";
             reqQuery["api-key"] = apiKey;
