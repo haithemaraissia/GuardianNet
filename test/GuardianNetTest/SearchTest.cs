@@ -32,6 +32,19 @@ namespace GuardianNetTest
             Assert.True(res.Status == "ok");
         }
 
+        [Theory]
+        [InlineData("Islam Terrists")]
+        [InlineData("Trump Politics")]
+        public async Task QueryExactTest(object query)
+        {
+            var guard = GetApi();
+
+            var res = await guard.SearchAsync((string)query);
+
+            Assert.True(res.CurrentPage == 1);
+            Assert.True(res.Status == "ok");
+        }
+
         [Fact]
         public async Task AdvencedQueryTest()
         {
@@ -39,7 +52,7 @@ namespace GuardianNetTest
 
             var qq = new SearchQuery
             {
-                Query = new Query().Add("Terrorism").Add("Trump"),
+                Query = new Query().Add("Terrorism").Add("Trump").Not("Europe"),
                 OrderBy = OrderBy.Relevance,
                 StarRating = 5,
                 PageSize = 10

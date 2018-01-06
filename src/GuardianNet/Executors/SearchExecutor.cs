@@ -38,18 +38,19 @@ namespace GuardianNet.Executors
             var reqQuery = HttpUtility.ParseQueryString(string.Empty, Encoding.UTF8);
 
             var queryString = query.Query.Build();
+
             if(string.IsNullOrWhiteSpace(queryString))
                 throw new InvalidOperationException("Cant create request with null or empty query");
 
             reqQuery["q"] = queryString;
 
-            if (string.IsNullOrWhiteSpace(query.Section))
+            if (!string.IsNullOrWhiteSpace(query.Section))
                 reqQuery["section"] = query.Section;
 
-            if(string.IsNullOrWhiteSpace(query.Tags))
+            if(!string.IsNullOrWhiteSpace(query.Tags))
                 reqQuery["tag"] = query.Tags;
 
-            if (string.IsNullOrWhiteSpace(query.Lang))
+            if(!string.IsNullOrWhiteSpace(query.Lang))
                 reqQuery["lang"] = query.Lang;
 
             if (query.StarRating > 0)
