@@ -13,9 +13,9 @@
     <RepositoryUrl>https://github.com/l7ssha/GuardianNet</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageLicenseUrl>https://github.com/l7ssha/GuardianNet/blob/master/LICENSE.md</PackageLicenseUrl>
-    <Version>1.1.1</Version>
-    <PackageReleaseNotes>- Fixed bugs with all properties filled with null
-- IEnumerable switched back to List</PackageReleaseNotes>
+    <Version>1.2.1</Version>
+    <PackageReleaseNotes>- Added inteligent QueryBuilder
+- Bugfixes</PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />

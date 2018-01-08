@@ -13,7 +13,7 @@ namespace GuardianNet.Executors
 {
     internal class Executor
     {
-        protected readonly HttpClient _client = new HttpClient();
+        private readonly HttpClient _client = new HttpClient();
 
         protected async Task<T> Execute<T>(string q)
         {

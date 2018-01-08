@@ -1,0 +1,122 @@
+Index: src/GuardianNet/Executors/Executor.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>// GuardianNet/GuardianNet/Executor.cs\r\n// \r\n// Created at: 01/01/2018\r\n// Author: Szymon 'l7ssha' Uglis\r\n\r\nusing System;\r\nusing System.Net.Http;\r\nusing System.Threading.Tasks;\r\nusing GuardianNet.Models;\r\nusing Newtonsoft.Json.Linq;\r\n\r\nnamespace GuardianNet.Executors\r\n{\r\n    internal class Executor\r\n    {\r\n        protected readonly HttpClient _client = new HttpClient();\r\n\r\n        protected async Task<T> Execute<T>(string q)\r\n        {\r\n            //var qq = q.Replace(\"+\", \"%20\");\r\n\r\n            HttpResponseMessage response = await _client.GetAsync(q);\r\n\r\n            if(!response.IsSuccessStatusCode)\r\n                throw new InvalidOperationException(\"TheGuardian Error\");\r\n\r\n            var resp = await response.Content.ReadAsStringAsync();\r\n            var temp = JObject.Parse(resp);\r\n            return temp[\"response\"].ToObject<T>();\r\n        }\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/GuardianNet/Executors/Executor.cs	(revision a040a34b821ede1d75c13e10a4279fa6d8f12860)
++++ src/GuardianNet/Executors/Executor.cs	(date 1515441094000)
+@@ -13,7 +13,7 @@
+ {
+     internal class Executor
+     {
+-        protected readonly HttpClient _client = new HttpClient();
++        private readonly HttpClient _client = new HttpClient();
+ 
+         protected async Task<T> Execute<T>(string q)
+         {
+Index: src/GuardianNet/GuardianNet.csproj
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><Project Sdk=\"Microsoft.NET.Sdk\">\n  <PropertyGroup>\n    <TargetFramework>netstandard2.0</TargetFramework>\n    <Authors>l7ssha</Authors>\n    <Company />\n    <Product>GuardianNet</Product>\n    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>\n    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>\n    <Description>GuardianNet is .NET wrapper for TheGuardian API.</Description>\n    <Copyright>Szymon 'l7ssha' Uglis</Copyright>\n    <PackageTags>theguardian,guardian,api,wrapper</PackageTags>\n    <PackageProjectUrl>https://github.com/l7ssha/GuardianNet</PackageProjectUrl>\n    <RepositoryUrl>https://github.com/l7ssha/GuardianNet</RepositoryUrl>\n    <RepositoryType>git</RepositoryType>\n    <PackageLicenseUrl>https://github.com/l7ssha/GuardianNet/blob/master/LICENSE.md</PackageLicenseUrl>\n    <Version>1.1.1</Version>\n    <PackageReleaseNotes>- Fixed bugs with all properties filled with null\r\n- IEnumerable switched back to List</PackageReleaseNotes>\n  </PropertyGroup>\n  <ItemGroup>\r\n    <PackageReference Include=\"Newtonsoft.Json\" Version=\"10.0.3\" />\r\n  </ItemGroup>\n</Project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/GuardianNet/GuardianNet.csproj	(revision a040a34b821ede1d75c13e10a4279fa6d8f12860)
++++ src/GuardianNet/GuardianNet.csproj	(date 1515262702000)
+@@ -13,9 +13,9 @@
+     <RepositoryUrl>https://github.com/l7ssha/GuardianNet</RepositoryUrl>
+     <RepositoryType>git</RepositoryType>
+     <PackageLicenseUrl>https://github.com/l7ssha/GuardianNet/blob/master/LICENSE.md</PackageLicenseUrl>
+-    <Version>1.1.1</Version>
+-    <PackageReleaseNotes>- Fixed bugs with all properties filled with null
+-- IEnumerable switched back to List</PackageReleaseNotes>
++    <Version>1.2.1</Version>
++    <PackageReleaseNotes>- Added inteligent QueryBuilder
++- Bugfixes</PackageReleaseNotes>
+   </PropertyGroup>
+   <ItemGroup>
+     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+Index: src/GuardianNet/Query.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>// GuardianNet/GuardianNet/Query.cs\r\n// \r\n// Created at: 30/12/2017\r\n// Author: Szymon 'l7ssha' Uglis\r\n\r\nusing System;\r\nusing System.Collections.Generic;\r\nusing System.Text;\r\n\r\nnamespace GuardianNet\r\n{\r\n    public class Query\r\n    {\r\n        private readonly StringBuilder query = new StringBuilder();\r\n\r\n        public Query Add(string phrase)\r\n        {\r\n\r\n            if (string.IsNullOrWhiteSpace(phrase))\r\n                throw new InvalidOperationException(\"Cant create request with null or empty query\");\r\n\r\n            if (query.Length <= 0)\r\n                query.Append(!phrase.Contains(\" \") ? phrase : $\"\\\"{phrase}\\\"\");\r\n            else\r\n                query.Append(!phrase.Contains(\" \") ? $\" OR {phrase}\" : $\" OR \\\"{phrase}\\\"\");\r\n\r\n            //if (query.Length <= 0)\r\n            //    query.Append(exact ? $\"\\\"{phrase}\\\"\" : phrase);\r\n            //else\r\n            //    query.Append(exact ? $\" OR \\\"{phrase}\\\"\" : $\" OR {phrase}\");\r\n\r\n            return this;\r\n        }\r\n\r\n        public Query And(string phrase)\r\n        {\r\n            if (string.IsNullOrWhiteSpace(phrase))\r\n                throw new InvalidOperationException(\"Cant create request with null or empty query\");\r\n\r\n            if (query.Length <= 0)\r\n                throw new InvalidOperationException(\"You can't add AND when query is empty.\");\r\n\r\n            query.Append(!phrase.Contains(\" \") ? $\" AND {phrase}\" : $\" AND \\\"{phrase}\\\"\");\r\n\r\n            //if (query.Length <= 0)\r\n            //    throw new InvalidOperationException(\"You can't add AND when query is empty.\");\r\n\r\n            //query.Append(exact ? $\" AND \\\"{phrase}\\\"\" : $\" AND {phrase}\");\r\n\r\n            return this;\r\n        }\r\n\r\n        public Query Not(string phrase)\r\n        {\r\n            if (string.IsNullOrWhiteSpace(phrase))\r\n                throw new InvalidOperationException(\"Cant create request with null or empty query\");\r\n            if (query.Length <= 0)\r\n                throw new InvalidOperationException(\"You can't add OR when query is empty.\");\r\n\r\n            query.Append(!phrase.Contains(\" \") ? $\" AND NOT {phrase}\" : $\" AND NOT \\\"{phrase}\\\"\");\r\n\r\n            //if (query.Length <= 0)\r\n            //    throw new InvalidOperationException(\"You can't add OR when query is empty.\");\r\n\r\n            //query.Append(exact ? $\" AND NOT \\\"{phrase}\\\"\" : $\" AND NOT {phrase}\");\r\n\r\n            return this;\r\n        }\r\n\r\n        internal string Build()\r\n            => query.ToString().Trim();\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/GuardianNet/Query.cs	(revision a040a34b821ede1d75c13e10a4279fa6d8f12860)
++++ src/GuardianNet/Query.cs	(date 1515441118000)
+@@ -24,11 +24,6 @@
+             else
+                 query.Append(!phrase.Contains(" ") ? $" OR {phrase}" : $" OR \"{phrase}\"");
+ 
+-            //if (query.Length <= 0)
+-            //    query.Append(exact ? $"\"{phrase}\"" : phrase);
+-            //else
+-            //    query.Append(exact ? $" OR \"{phrase}\"" : $" OR {phrase}");
+-
+             return this;
+         }
+ 
+@@ -42,11 +37,6 @@
+ 
+             query.Append(!phrase.Contains(" ") ? $" AND {phrase}" : $" AND \"{phrase}\"");
+ 
+-            //if (query.Length <= 0)
+-            //    throw new InvalidOperationException("You can't add AND when query is empty.");
+-
+-            //query.Append(exact ? $" AND \"{phrase}\"" : $" AND {phrase}");
+-
+             return this;
+         }
+ 
+@@ -59,11 +49,6 @@
+ 
+             query.Append(!phrase.Contains(" ") ? $" AND NOT {phrase}" : $" AND NOT \"{phrase}\"");
+ 
+-            //if (query.Length <= 0)
+-            //    throw new InvalidOperationException("You can't add OR when query is empty.");
+-
+-            //query.Append(exact ? $" AND NOT \"{phrase}\"" : $" AND NOT {phrase}");
+-
+             return this;
+         }
+ 
+Index: src/GuardianNet/SearchQuery.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>// GuardianNet/GuardianNet/SearchQuery.cs\r\n// \r\n// Created at: 30/12/2017\r\n// Author: Szymon 'l7ssha' Uglis\r\n\r\nusing System;\r\nusing System.Collections.Generic;\r\nusing System.Text;\r\n\r\nnamespace GuardianNet\r\n{\r\n    public class SearchQuery\r\n    {\r\n        public Query Query { get; set; }\r\n        public string Section { get; set; }\r\n        public string Tags { get; set; }\r\n        public string Lang { get; set; }\r\n        public int StarRating { get; set; }\r\n\r\n        public OrderBy? OrderBy { get; set; }\r\n        public OrderDate? OrderDate { get; set; }\r\n\r\n        public DateQuery DateQuery { get; set; }\r\n\r\n        public int Page { get; set; }\r\n        public int PageSize { get; set; }\r\n        public bool ShowRights { get; set; }\r\n    }\r\n\r\n    public class DateQuery\r\n    {\r\n        public DateQuery(DateTime dateTime, Date date)\r\n        {\r\n            DateTime = dateTime;\r\n            Type = date;\r\n        }\r\n\r\n        public enum Date\r\n        {\r\n            FromDate,\r\n            ToDate\r\n        }\r\n\r\n        public DateTime DateTime { get; set; }\r\n        public Date Type { get; set; }\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/GuardianNet/SearchQuery.cs	(revision a040a34b821ede1d75c13e10a4279fa6d8f12860)
++++ src/GuardianNet/SearchQuery.cs	(date 1515441149000)
+@@ -41,7 +41,7 @@
+             ToDate
+         }
+ 
+-        public DateTime DateTime { get; set; }
+-        public Date Type { get; set; }
++        public DateTime DateTime { get; }
++        public Date Type { get; }
+     }
+ }
+\ No newline at end of file
+Index: src/GuardianNet/TagType.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>// GuardianNet/GuardianNet/TagType.cs\r\n// \r\n// Created at: 01/01/2018\r\n// Author: Szymon 'l7ssha' Uglis\r\nnamespace GuardianNet\r\n{\r\n    public enum TagType\r\n    {\r\n#warning Add 'newspaper-book' and 'newspaper-book-section'\r\n        Blog,\r\n        Contributor,\r\n        Keyword,\r\n        Publication,\r\n        Series,\r\n        Tone,\r\n        Type,\r\n        NewspaperBook,\r\n        NewspaperBookSection\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/GuardianNet/TagType.cs	(revision a040a34b821ede1d75c13e10a4279fa6d8f12860)
++++ src/GuardianNet/TagType.cs	(date 1515441132000)
+@@ -6,7 +6,6 @@
+ {
+     public enum TagType
+     {
+-#warning Add 'newspaper-book' and 'newspaper-book-section'
+         Blog,
+         Contributor,
+         Keyword,

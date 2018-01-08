@@ -41,7 +41,7 @@ namespace GuardianNet
             ToDate
         }
 
-        public DateTime DateTime { get; set; }
-        public Date Type { get; set; }
+        public DateTime DateTime { get; }
+        public Date Type { get; }
     }
 }

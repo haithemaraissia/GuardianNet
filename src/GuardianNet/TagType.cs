@@ -6,7 +6,6 @@ namespace GuardianNet
 {
     public enum TagType
     {
-#warning Add 'newspaper-book' and 'newspaper-book-section'
         Blog,
         Contributor,
         Keyword,
