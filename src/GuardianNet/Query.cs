@@ -12,7 +12,13 @@ namespace GuardianNet
     public class Query
     {
         private readonly StringBuilder query = new StringBuilder();
-
+        
+        /// <summary>
+        /// Adds OR type query to object
+        /// </summary>
+        /// <param name="phrase">Words to search</param>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException">Throws when PHRASE is empty or null</exception>
         public Query Add(string phrase)
         {
 
@@ -26,7 +32,13 @@ namespace GuardianNet
 
             return this;
         }
-
+    
+        /// <summary>
+        /// Adds AND type query. It means previus word and this have to be in title
+        /// </summary>
+        /// <param name="phrase"></param>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException">Throws when PHRASE is empty or null</exception>
         public Query And(string phrase)
         {
             if (string.IsNullOrWhiteSpace(phrase))
@@ -39,7 +51,13 @@ namespace GuardianNet
 
             return this;
         }
-
+        
+        /// <summary>
+        /// Adds AND NOT type query. It means this word cant exist together with previous query word.
+        /// </summary>
+        /// <param name="phrase"></param>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException"></exception>
         public Query Not(string phrase)
         {
             if (string.IsNullOrWhiteSpace(phrase))
@@ -51,7 +69,11 @@ namespace GuardianNet
 
             return this;
         }
-
+        
+        /// <summary>
+        /// Get string representation of Query
+        /// </summary>
+        /// <returns></returns>
         internal string Build()
             => query.ToString().Trim();
     }
