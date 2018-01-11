@@ -4,7 +4,6 @@
 // Author: Szymon 'l7ssha' Uglis
 
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace GuardianNet.Models.Editions
 {

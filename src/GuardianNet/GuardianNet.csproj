@@ -13,8 +13,8 @@
     <RepositoryUrl>https://github.com/l7ssha/GuardianNet</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageLicenseUrl>https://github.com/l7ssha/GuardianNet/blob/master/LICENSE.md</PackageLicenseUrl>
-    <Version>1.2.2</Version>
-    <PackageReleaseNotes>Removed some unecessary stuff</PackageReleaseNotes>
+    <Version>1.2.3</Version>
+    <PackageReleaseNotes>Comments in Query</PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />

@@ -4,8 +4,6 @@
 // Author: Szymon 'l7ssha' Uglis
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GuardianNet
 {

@@ -6,7 +6,6 @@
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using GuardianNet.Models;
 using Newtonsoft.Json.Linq;
 
 namespace GuardianNet.Executors
@@ -22,8 +21,10 @@ namespace GuardianNet.Executors
             HttpResponseMessage response = await _client.GetAsync(q);
 
             if(!response.IsSuccessStatusCode)
+            {
                 throw new InvalidOperationException("TheGuardian Error");
-
+            }
+                
             var resp = await response.Content.ReadAsStringAsync();
             var temp = JObject.Parse(resp);
             return temp["response"].ToObject<T>();
