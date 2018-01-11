@@ -12,7 +12,7 @@ namespace GuardianNetTest
 {
     public class TagTest
     {
-        public GuardianApi GetApi()
+        private GuardianApi GetApi()
         {
             var token = File.ReadAllText("token.txt");
             return new GuardianApi(token);
