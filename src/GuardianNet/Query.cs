@@ -10,7 +10,7 @@ namespace GuardianNet
 {
     public class Query
     {
-        private readonly StringBuilder query = new StringBuilder();
+        private StringBuilder query = new StringBuilder();
         
         /// <summary>
         /// Adds OR type query to object
