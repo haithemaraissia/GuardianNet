@@ -27,8 +27,8 @@ namespace GuardianNet.Executors
             reqQuery["format"] = "json";
             reqQuery["api-key"] = apiKey;
 
-            var s = await Execute<TempResult>(_ENDPOINT + $"?{reqQuery}");
-            return s.Results;
+            var res = await Execute<TempResult>(_ENDPOINT + $"?{reqQuery}");
+            return res.Results;
         }
     }
 }

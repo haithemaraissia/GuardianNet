@@ -21,12 +21,9 @@ namespace GuardianNet.Executors
             HttpResponseMessage response = await _client.GetAsync(q);
 
             if(!response.IsSuccessStatusCode)
-            {
                 throw new InvalidOperationException("TheGuardian Error");
-            }
-                
-            var resp = await response.Content.ReadAsStringAsync();
-            var temp = JObject.Parse(resp);
+
+            var temp = JObject.Parse(await response.Content.ReadAsStringAsync());
             return temp["response"].ToObject<T>();
         }
     }
